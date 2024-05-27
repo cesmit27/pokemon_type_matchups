@@ -1,5 +1,5 @@
 UPDATE!!!! 
-I changed how I wanted to design this tool, so this code is no longer useful, but I am keeping it in this repository just because
+I changed how I wanted to design this tool, so this code is no longer useful, but I am keeping it in this directory just because
 
 
 
