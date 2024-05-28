@@ -29,10 +29,54 @@ regional_variants = {
         }
 }
 
+alternate_forms = {
+    "Urshifu": {
+        "Single Strike": ["Fighting", "Dark"],
+        "Rapid Strike": ["Fighting", "Water"]
+        },
+    "Castform": {
+        "Normal Form": ["Normal"],
+        "Sunny Form": ["Fire"],
+        "Rainy Form": ["Water"],
+        "Snowy Form": ["Ice"]
+        },
+    "Wormadam": {
+        "Plant Cloak": ["Bug", "Grass"],
+        "Sandy Cloak": ["Bug", "Ground"],
+        "Trash Cloak": ["Bug", "Steel"]
+        },
+    "Rotom": {
+        "Rotom": ["Electric", "Ghost"],
+        "Heat Rotom": ["Electric", "Fire"],
+        "Wash Rotom": ["Electric", "Water"],
+        "Frost Rotom": ["Electric", "Ice"],
+        "Fan Rotom": ["Electric", "Flying"],
+        "Mow Rotom": ["Electric", "Flying"]
+        },
+    "Shaymin": {
+        "Land Forme": ["Grass"],
+        "Sky Forme": ["Grass", "Flying"]
+        },
+    "Darmanitan": {
+            "Standard Mode": ["Fire"],
+            "Zen Mode": ["Fire", "Psychic"],
+            "Galarian Standard Mode": ["Ice"],
+            "Galarian Zen Mode": ["Ice", "Fire"]
+            }
+    }
 #Merge all forms into a single dictionary
-all_forms = {**base_types, **mega_evolutions, **primal_reversion, **regional_variants}
+all_forms = {**base_types, **mega_evolutions, **primal_reversion}
 
-
+for pokemon, variants in regional_variants.items():
+    if isinstance(variants, dict):
+        all_forms.update({f"{pokemon} ({variant})": types for variant, types in variants.items()})
+    else:
+        all_forms[pokemon] = variants
+for pokemon, variants in alternate_forms.items():
+    if isinstance(variants, dict):
+        all_forms.update({f"{pokemon} ({variant})": types for variant, types in variants.items()})
+    else:
+        all_forms[pokemon] = variants
 #Type effectiveness multipliers
 type_effectiveness = {
     "Normal": {"Normal": 1, "Fire": 1, "Water": 1, "Electric": 1, "Grass": 1, "Ice": 1, "Fighting": 2, "Poison": 1, "Ground": 1, "Flying": 1, "Psychic": 1, "Bug": 1, "Rock": 1, "Ghost": 0, "Dragon": 1, "Dark": 1, "Steel": 1, "Fairy": 1},
@@ -78,7 +122,9 @@ while True:
             forms.append(f"Hisuian {pokemon}")
         if f"Paldean {pokemon}" in regional_variants:
             forms.append(f"Paldean {pokemon}")
-    elif pokemon in mega_evolutions or pokemon in primal_reversion or pokemon in regional_variants:
+        if f"{pokemon}" in alternate_forms:
+            forms.append(f"{pokemon}")
+    elif pokemon in mega_evolutions or pokemon in primal_reversion or pokemon in regional_variants or pokemon in alternate_forms:
         forms.append(pokemon)
 
 #Handle case where Pokémon is not found
@@ -94,6 +140,27 @@ while True:
             selected_pokemon = forms[choice - 1]
         else:
             selected_pokemon = forms[0]
+        if selected_pokemon == ("Darmanitan") and isinstance(alternate_forms[selected_pokemon], dict):
+            breeds = list(alternate_forms[selected_pokemon].keys())
+            print(f"{selected_pokemon} has multiple forms:")
+            for i, breed in enumerate(breeds):
+                print(f"{i + 1}. {breed}")
+            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
+            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+        if selected_pokemon == "Paldean Tauros" and isinstance(regional_variants[selected_pokemon], dict):
+            breeds = list(regional_variants[selected_pokemon].keys())
+            print(f"{selected_pokemon} has multiple breeds:")
+            for i, breed in enumerate(breeds):
+                print(f"{i + 1}. {breed}")
+            breed_choice = int(input("Select the breed of Paldean Tauros you want by entering the number: "))
+            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+        if selected_pokemon == "Urshifu" and isinstance(alternate_forms[selected_pokemon], dict):
+            breeds = list(alternate_forms[selected_pokemon].keys())
+            print(f"{selected_pokemon} has multiple forms:")
+            for i, breed in enumerate(breeds):
+                print(f"{i + 1}. {breed}")
+            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
+            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"   
 
     #Determine the Pokémon's types
         types = all_forms.get(selected_pokemon, [])
