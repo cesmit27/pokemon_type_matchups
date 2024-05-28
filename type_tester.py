@@ -1,37 +1,41 @@
 from time import sleep
-# Define base form Pokémon types
+#Define base form Pokémon types
 base_types = {
     "Charizard": ["Fire", "Flying"],
     "Exeggutor": ["Grass", "Psychic"],
     "Dratini": ["Dragon"],
-    "Dragonair": ["Dragon"],
-    "Dragonite": ["Dragon", "Flying"],
-    "Charmander": ["Fire"],
-    "Charmeleon": ["Fire"],
-    "Vulpix": ["Fire"],
-    "Ninetales": ["Fire"],
-    "Butterfree": ["Bug", "Flying"],
-    "Pidgey": ["Normal", "Flying"],
-    "Pidgeotto": ["Normal", "Flying"],
-    "Pidgeot": ["Normal", "Flying"]
+    "Kyogre": ["Water"],
+    "Tauros": ["Normal"]
+    
 }
 
-# Define alternate forms and their types
+#Define alternate forms and their types
 mega_evolutions = {
     "Mega Charizard X": ["Fire", "Dragon"],
     "Mega Charizard Y": ["Fire", "Flying"]
 }
 
-regional_variants = {
-    "Alolan Exeggutor": ["Grass", "Dragon"]
+primal_reversion = {
+  "Primal Kyogre": ["Water"],
+  "Primal Groudon": ["Ground", "Fire"]
 }
 
-# Merge all forms into a single dictionary for easy lookup
-all_forms = {**base_types, **mega_evolutions, **regional_variants}
+regional_variants = {
+    "Alolan Exeggutor": ["Grass", "Dragon"],
+    "Paldean Tauros": {
+        "Combat Breed": ["Fighting"],
+        "Blaze Breed": ["Fighting", "Fire"],
+        "Aqua Breed": ["Fighting", "Water"]
+        }
+}
 
-# Type effectiveness multipliers
+#Merge all forms into a single dictionary
+all_forms = {**base_types, **mega_evolutions, **primal_reversion, **regional_variants}
+
+
+#Type effectiveness multipliers
 type_effectiveness = {
-    "Normal": {"Normal": 1, "Fire": 1, "Water": 1, "Electric": 1, "Grass": 1, "Ice": 1, "Fighting": 2, "Poison": 1, "Ground": 1, "Flying": 1, "Psychic": 1, "Bug": 1, "Rock": 0.5, "Ghost": 0, "Dragon": 1, "Dark": 1, "Steel": 0.5, "Fairy": 1},
+    "Normal": {"Normal": 1, "Fire": 1, "Water": 1, "Electric": 1, "Grass": 1, "Ice": 1, "Fighting": 2, "Poison": 1, "Ground": 1, "Flying": 1, "Psychic": 1, "Bug": 1, "Rock": 1, "Ghost": 0, "Dragon": 1, "Dark": 1, "Steel": 1, "Fairy": 1},
     "Fire": {"Normal": 1, "Fire": 0.5, "Water": 2, "Electric": 1, "Grass": 0.5, "Ice": 0.5, "Fighting": 1, "Poison": 1, "Ground": 2, "Flying": 1, "Psychic": 1, "Bug": 0.5, "Rock": 2, "Ghost": 1, "Dragon": 1, "Dark": 1, "Steel": 0.5, "Fairy": 0.5},
     "Water": {"Normal": 1, "Fire": 0.5, "Water": 0.5, "Electric": 2, "Grass": 2, "Ice": 0.5, "Fighting": 1, "Poison": 1, "Ground": 1, "Flying": 1, "Psychic": 1, "Bug": 1, "Rock": 1, "Ghost": 1, "Dragon": 1, "Dark": 1, "Steel": 0.5, "Fairy": 1},
     "Electric": {"Normal": 1, "Fire": 1, "Water": 1, "Electric": 0.5, "Grass": 1, "Ice": 1, "Fighting": 1, "Poison": 1, "Ground": 2, "Flying": 0.5, "Psychic": 1, "Bug": 1, "Rock": 1, "Ghost": 1, "Dragon": 1, "Dark": 1, "Steel": 0.5, "Fairy": 1},
@@ -51,10 +55,10 @@ type_effectiveness = {
     "Fairy": {"Normal": 1, "Fire": 1, "Water": 1, "Electric": 1, "Grass": 1, "Ice": 1, "Fighting": 0.5, "Poison": 2, "Ground": 1, "Flying": 1, "Psychic": 1, "Bug": 0.5, "Rock": 1, "Ghost": 1, "Dragon": 0, "Dark": 0.5, "Steel": 2, "Fairy": 1}
 }
 while True:
-# Get user input
+#Get user input
     pokemon = input("Enter your Pokémon: ").title()
 
-# Check for base Pokémon and forms
+#Check for base Pokémon and forms
     forms = []
     if pokemon in base_types:
         forms.append(pokemon)
@@ -62,12 +66,22 @@ while True:
             forms.append(f"Mega {pokemon} X")
         if f"Mega {pokemon} Y" in mega_evolutions:
             forms.append(f"Mega {pokemon} Y")
+        if f"Mega {pokemon}" in mega_evolutions:
+            forms.append(f"Mega {pokemon}")
+        if f"Primal {pokemon}" in primal_reversion:
+            forms.append(f"Primal {pokemon}")
         if f"Alolan {pokemon}" in regional_variants:
             forms.append(f"Alolan {pokemon}")
-    elif pokemon in mega_evolutions or pokemon in regional_variants:
+        if f"Galarian {pokemon}" in regional_variants:
+            forms.append(f"Galarian {pokemon}")
+        if f"Hisuian {pokemon}" in regional_variants:
+            forms.append(f"Hisuian {pokemon}")
+        if f"Paldean {pokemon}" in regional_variants:
+            forms.append(f"Paldean {pokemon}")
+    elif pokemon in mega_evolutions or pokemon in primal_reversion or pokemon in regional_variants:
         forms.append(pokemon)
 
-# Handle case where Pokémon is not found
+#Handle case where Pokémon is not found
     if not forms:
         print("Pokémon not found.")
     else:
@@ -81,10 +95,10 @@ while True:
         else:
             selected_pokemon = forms[0]
 
-    # Determine the Pokémon's types
+    #Determine the Pokémon's types
         types = all_forms.get(selected_pokemon, [])
 
-    # Determine weaknesses and resistances
+    #Determine weaknesses and resistances
         weaknesses = {}
         resistances = {}
         immunities = {}
@@ -100,7 +114,7 @@ while True:
             elif multiplier == 0:
                 immunities[move_type] = multiplier
         print ("")
-    # Display results
+    #Display results
         if types:
             type_string = f"{types[0]} type"
             if len(types) > 1:
