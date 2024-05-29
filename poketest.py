@@ -1283,7 +1283,7 @@ alternate_forms = {
 #Merge all forms into a single dictionary
 all_forms = {**base_types, **mega_evolutions, **primal_reversion}
 
-#Needed due to items such as Paldean Tauros and Urshifu having nested dictionaries
+#Needed due to Pokémon such as Paldean Tauros and Darmanitan having nested dictionaries
 for pokemon, variants in base_types.items():
     if isinstance(variants, dict):
         all_forms.update({f"{pokemon} ({variant})": types for variant, types in variants.items()})
@@ -1357,8 +1357,8 @@ while True:
 #Handle case where Pokémon is not found due to mispelling or not existing
     if not forms:
         print("Pokémon not found. Please be sure you have spelled the name correctly.")
+#User input to select form
     else:
-    # Prompt the user to select the form if there are multiple
         if len(forms) > 1:
             print(pokemon ,"has multiple forms.")
             for i, form in enumerate(forms):
@@ -1514,7 +1514,7 @@ while True:
     #Determine the Pokémon's types
         types = all_forms.get(selected_pokemon, [])
 
-    #Determine weaknesses and resistances
+    #Determine weaknesses, resistances, immunities
         weaknesses = {}
         resistances = {}
         immunities = {}
@@ -1530,7 +1530,7 @@ while True:
             elif multiplier == 0:
                 immunities[move_type] = multiplier
         print ("")
-    #Display results
+    #Output
         if types:
             type_string = f"{types[0]} type"
             if len(types) > 1:
@@ -1555,6 +1555,7 @@ while True:
             else:
                 print(f"{selected_pokemon} has no immunities.")
     sleep(3)
+#Repeat script if necessary
     choice = input("Would you like to do another Pokémon? (y/n): ").lower()
-    if choice != 'y':
+    if choice != 'y' or "yes":
         break
