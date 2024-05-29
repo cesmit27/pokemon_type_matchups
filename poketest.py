@@ -1250,7 +1250,7 @@ alternate_forms = {
         "Type: Fairy": ["Fairy"]
         },
     "Necrozma": {
-        "Necrozma": ["Psychic"],
+        "Base Form": ["Psychic"],
         "Dusk Mane Necrozma": ["Psychic", "Steel"],
         "Dawn Wings Necrozma": ["Psychic", "Ghost"],
         "Ultra Necrozma": ["Psychic", "Dragon"]
@@ -1283,7 +1283,7 @@ alternate_forms = {
 #Merge all forms into a single dictionary
 all_forms = {**base_types, **mega_evolutions, **primal_reversion}
 
-#Needed due to Pokémon such as Paldean Tauros and Darmanitan having nested dictionaries
+#Needed due to items such as Paldean Tauros and Urshifu having nested dictionaries
 for pokemon, variants in base_types.items():
     if isinstance(variants, dict):
         all_forms.update({f"{pokemon} ({variant})": types for variant, types in variants.items()})
@@ -1357,14 +1357,22 @@ while True:
 #Handle case where Pokémon is not found due to mispelling or not existing
     if not forms:
         print("Pokémon not found. Please be sure you have spelled the name correctly.")
-#User input to select form
     else:
+    # Prompt the user to select the form if there are multiple
         if len(forms) > 1:
             print(pokemon ,"has multiple forms.")
             for i, form in enumerate(forms):
                 print(f"{i + 1}. {form}")
-            choice = int(input("Select the form of " + pokemon + " you wanted by entering the number: "))
-            selected_pokemon = forms[choice - 1]
+            while True:
+                try:
+                    choice = int(input("Select the form of " + pokemon + " you wanted by entering the number: "))
+                    if 1 <= choice <= len(forms):
+                        selected_pokemon = forms[choice - 1]
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(forms)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         else:
             selected_pokemon = forms[0]
             
@@ -1373,148 +1381,308 @@ while True:
             print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == ("Mega Mewtwo") and isinstance(mega_evolutions[selected_pokemon], dict):
             breeds = list(mega_evolutions[selected_pokemon].keys())
             print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == ("Paldean Tauros") and isinstance(regional_variants[selected_pokemon], dict):
             breeds = list(regional_variants[selected_pokemon].keys())
             print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Darmanitan" and isinstance(base_types[selected_pokemon], dict):
             breeds = list(base_types[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Galarian Darmanitan" and isinstance(regional_variants[selected_pokemon], dict):
             breeds = list(regional_variants[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
 
     #I tried to use an or statement for this alternate_forms dictionary but I coulnd't get it to work so each alt form gets its own if statement. Whoopee. Thanks ctrl-c and ctrl-v
         if selected_pokemon == "Castform" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Wormadam" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Rotom" and isinstance(alternate_forms[selected_pokemon], dict):
-            breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
-            for i, breed in enumerate(breeds):
+           breeds = list(alternate_forms[selected_pokemon].keys())
+           print(f"{selected_pokemon} has multiple breeds:")
+           for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+           while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Shaymin" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Arceus" and isinstance(alternate_forms[selected_pokemon], dict):
-            breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
-            for i, breed in enumerate(breeds):
+           breeds = list(alternate_forms[selected_pokemon].keys())
+           print(f"{selected_pokemon} has multiple breeds:")
+           for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+           while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Meloetta" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Hoopa" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Oricorio" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Silvally" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Necrozma" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Zacian" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Zamazenta" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Urshifu" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Calyrex" and isinstance(alternate_forms[selected_pokemon], dict):
-            breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
-            for i, breed in enumerate(breeds):
+           breeds = list(alternate_forms[selected_pokemon].keys())
+           print(f"{selected_pokemon} has multiple breeds:")
+           for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+           while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
         if selected_pokemon == "Ogerpon" and isinstance(alternate_forms[selected_pokemon], dict):
             breeds = list(alternate_forms[selected_pokemon].keys())
-            print(f"{selected_pokemon} has multiple forms:")
+            print(f"{selected_pokemon} has multiple breeds:")
             for i, breed in enumerate(breeds):
                 print(f"{i + 1}. {breed}")
-            breed_choice = int(input(f"Select the form of {pokemon} you want by entering the number: "))
-            selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+            while True:
+                try:
+                    breed_choice = int(input(f"Select the breed of {pokemon} you want by entering the number: "))
+                    if 1 <= breed_choice <= len(breeds):
+                        selected_pokemon = f"{selected_pokemon} ({breeds[breed_choice - 1]})"
+                        break
+                    else:
+                        print(f"Please enter a number between 1 and {len(breeds)}.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
 
     #Determine the Pokémon's types
         types = all_forms.get(selected_pokemon, [])
 
-    #Determine weaknesses, resistances, immunities
+    #Determine weaknesses and resistances
         weaknesses = {}
         resistances = {}
         immunities = {}
@@ -1530,7 +1698,7 @@ while True:
             elif multiplier == 0:
                 immunities[move_type] = multiplier
         print ("")
-    #Output
+    #Display results
         if types:
             type_string = f"{types[0]} type"
             if len(types) > 1:
@@ -1555,7 +1723,6 @@ while True:
             else:
                 print(f"{selected_pokemon} has no immunities.")
     sleep(3)
-#Repeat script if necessary
     choice = input("Would you like to do another Pokémon? (y/n): ").lower()
-    if choice != 'y' or "yes":
+    if choice not in ["y", "yes"]:
         break
